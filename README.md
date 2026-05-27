@@ -123,6 +123,9 @@ FAIL 시 박스 위에 출력된 **진단 / 힌트**를 읽어 어느 부분이 
 - **LionScribe 채점은 백엔드를 강제 종료 시킵니다** — `systemd Restart=always`
   같은 자동 재시작 설정이 없으면 백엔드가 다시 안 살아납니다. 채점기가 자동으로
   health check를 시도하니, 20초 안에 복구되지 않으면 FAIL이 떨어집니다.
+  - **EC2 인스턴스 자체나 SSH 세션은 끊기지 않습니다** — chaos는 gunicorn worker
+    프로세스 하나만 종료시킵니다. systemd가 즉시 다시 spawn하고, 채점기 프로세스는
+    별도라 영향 없이 계속 동작합니다. 안심하고 EC2에서 실행하세요.
 
 - **백엔드 ALLOWED_HOSTS / CORS 설정** — Django의 `ALLOWED_HOSTS`에 채점 도메인이
   포함돼야 합니다. 자기 도메인을 정확히 적었는지 확인하세요.
